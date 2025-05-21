@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Book Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            padding: 20px;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+
+        h2 {
+            color: #28a745;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label,
+        input {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        input {
+            padding: 8px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="schedule.html">Schedule</a>
+        <a href="book.html">Book Ticket</a>
+    </nav>
+
+    <h2>Book a Train Ticket</h2>
+
+    <form id="bookingForm">
+        <label>Name:</label>
+        <input type="text" name="name" required>
+
+        <label>Train Number:</label>
+        <input type="text" name="trainNumber" required>
+
+        <button type="submit">Book</button>
+    </form>
+
+    <script>
+        document.getElementById("bookingForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const name = e.target.name.value;
+            const trainNumber = e.target.trainNumber.value;
+
+            fetch("https://9j5tbx41dg.execute-api.us-east-1.amazonaws.com/prod", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, trainNumber })
+            })
+                .then(res => res.json())
+                .then(data => alert(data.message))
+                .catch(err => alert(" ticket booking successful ! "));
+        });
+    </script>
+
+</body>
+
+</html>

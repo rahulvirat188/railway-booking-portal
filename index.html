@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Railway Info Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+
+        h1 {
+            color: #052880;
+        }
+
+        h2 {
+            color: #007BFF;
+        }
+
+        #trainData {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-buttons {
+            margin-top: 20px;
+        }
+
+        .nav-buttons a {
+            display: inline-block;
+            margin-right: 15px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .nav-buttons a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="schedule.html">Schedule</a>
+        <a href="book.html">Book Ticket</a>
+    </nav>
+
+    <h1>Welcome to the INDIAN RAILWAYS!</h1>
+    <h2>Railway Info Portal</h2>
+
+    <div class="nav-buttons">
+        <a href="schedule.html">View Schedule</a>
+        <a href="book.html">Book a Ticket</a>
+    </div>
+
+    <script>
+        fetch("https://9j5tbx41dg.execute-api.us-east-1.amazonaws.com/prod")
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById("trainData");
+                if (data && data.length > 0) {
+                    container.innerHTML = "";
+                    data.forEach(train => {
+                        const info = `
+              <p><strong>${train.TrainName}</strong> (${train.TrainNumber})<br>
+              From: ${train.Source} To: ${train.Destination}<br>
+              Departure: ${train.Departure} | Arrival: ${train.Arrival}</p>
+              <hr>`;
+                        container.innerHTML += info;
+                    });
+                } else {
+                    container.innerHTML = "<p>No train data available.</p>";
+                }
+            })
+            .catch(() => {
+                document.getElementById("trainData").innerHTML = "<p>Error loading train data.</p>";
+            });
+    </script>
+
+</body>
+
+</html>
